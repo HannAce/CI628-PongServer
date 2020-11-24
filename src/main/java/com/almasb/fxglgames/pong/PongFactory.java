@@ -60,11 +60,18 @@ public class PongFactory implements EntityFactory {
 
         var endGame = getip("player1score").isEqualTo(10).or(getip("player2score").isEqualTo(10));
 
+        // listens to endGame, then stops the ball if a player has a score of 10 to stop the game
+        endGame.addListener((observableValue, oldValue, newValue) -> {
+            if (newValue) {
+                physics.setLinearVelocity(0, 0);
+            }
+        });
+
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.startColorProperty().bind(
                 Bindings.when(endGame)
-                        .then(Color.LIGHTYELLOW)
-                        .otherwise(Color.LIGHTYELLOW)
+                        .then(Color.PURPLE)
+                        .otherwise(Color.PURPLE)
         );
 
         emitter.endColorProperty().bind(
@@ -96,7 +103,7 @@ public class PongFactory implements EntityFactory {
 
         return entityBuilder(data)
                 .type(isPlayer ? EntityType.PLAYER_BAT : EntityType.ENEMY_BAT)
-                .viewWithBBox(new Rectangle(20, 60, Color.LIGHTGRAY))
+                .viewWithBBox(new Rectangle(20, 80, Color.LIGHTGRAY))
                 .with(new CollidableComponent(true))
                 .with(physics)
                 .with(new BatComponent())
