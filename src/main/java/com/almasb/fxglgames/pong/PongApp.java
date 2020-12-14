@@ -168,12 +168,18 @@ public class PongApp extends GameApplication implements MessageHandler<String> {
                     inc("player2score", +1);
 
                     server.broadcast("SCORES," + geti("player1score") + "," + geti("player2score"));
+                    if (geti("player2score") == 10) {
+                        server.broadcast(GAME_WONP2);
+                    }
 
                     server.broadcast(HIT_WALL_LEFT);
                 } else if (boxB.getName().equals("RIGHT")) {
                     inc("player1score", +1);
 
                     server.broadcast("SCORES," + geti("player1score") + "," + geti("player2score"));
+                    if (geti("player1score") == 10) {
+                        server.broadcast(GAME_WONP1);
+                    }
 
                     server.broadcast(HIT_WALL_RIGHT);
                 } else if (boxB.getName().equals("TOP")) {
